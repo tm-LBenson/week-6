@@ -22,14 +22,37 @@ export function ResourceProvider({ children }) {
     });
 
     const createdResource = await res.json();
-    setResources((current)=> [...current, createResource])
+    setResources((current) => [...current, createResource]);
   }
 
   useEffect(() => {
     loadResources();
   }, []);
 
-  return <ResourceContext.Provider value={{ resources, createResource }}>{children}</ResourceContext.Provider>;
+  async function updateResource(id, updates) {
+    const url = BACKEND + "/" + id;
+    const res = await fetch(url, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updates),
+    });
+    const updatedResource = await res.json();
+
+    setResources((current) =>
+      current.map((resource) => {
+        console.log(resource.id, updatedResource.id);
+        if (resource.id === updatedResource.id) {
+          return updatedResource;
+        }
+
+        return resource;
+      }),
+    );
+  }
+
+  return <ResourceContext.Provider value={{ resources, createResource, updateResource }}>{children}</ResourceContext.Provider>;
 }
 
 export function useResources() {

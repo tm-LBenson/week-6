@@ -31,6 +31,13 @@ def create_resource():
   return res.data[0]
 
 
+@app.patch("/api/resources/<int:resource_id>")
+def update_resource(resource_id):
+  req = request.get_json()
+  res = supabase.table(TABLE).update(req).eq("id", resource_id).execute()
+  return res.data[0]
+
+
 if __name__ == "__main__":
   app.run()
 

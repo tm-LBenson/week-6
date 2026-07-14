@@ -22,7 +22,7 @@ export function ResourceProvider({ children }) {
     });
 
     const createdResource = await res.json();
-    setResources((current) => [...current, createResource]);
+    setResources((current) => [...current, createdResource]);
   }
 
   useEffect(() => {
@@ -42,7 +42,6 @@ export function ResourceProvider({ children }) {
 
     setResources((current) =>
       current.map((resource) => {
-        console.log(resource.id, updatedResource.id);
         if (resource.id === updatedResource.id) {
           return updatedResource;
         }

@@ -39,7 +39,6 @@ function App() {
             Create
           </Button>
         </Stack>
-        {console.log(resources)}
         <Stack spacing={1}>
           {resources.map((resource) => (
             <Card key={resource.id}>

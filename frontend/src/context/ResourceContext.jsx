@@ -45,13 +45,20 @@ export function ResourceProvider({ children }) {
         if (resource.id === updatedResource.id) {
           return updatedResource;
         }
-
         return resource;
       }),
     );
   }
 
-  return <ResourceContext.Provider value={{ resources, createResource, updateResource }}>{children}</ResourceContext.Provider>;
+  async function deleteResource(id) {
+    const url = BACKEND + "/" + id;
+    const res = await fetch(url, { method: "DELETE" });
+    const data = await res.json();
+
+    setResources((current) => current.filter((resource) => resource.id !== id));
+  }
+
+  return <ResourceContext.Provider value={{ resources, createResource, updateResource, deleteResource }}>{children}</ResourceContext.Provider>;
 }
 
 export function useResources() {

@@ -38,6 +38,12 @@ def update_resource(resource_id):
   return res.data[0]
 
 
+@app.delete("/api/resources/<int:resource_id>")
+def delete_resource(resource_id):
+  res = supabase.table(TABLE).delete().eq("id", resource_id).execute()
+  return res.data[0]
+
+
 if __name__ == "__main__":
   app.run()
 

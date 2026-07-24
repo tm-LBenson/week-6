@@ -1,12 +1,11 @@
 import os
-
 from flask import Flask, request
 from dotenv import load_dotenv
 from flask_cors import CORS
 from supabase import create_client, Client
 app = Flask(__name__)
 load_dotenv()
-CORS(app)
+CORS(app, origins=[os.getenv("ORIGIN")])
 TABLE = "friendly_giggle_resources"
 supabase: Client = create_client(
   os.getenv("URL"),
@@ -20,7 +19,9 @@ def health():
 
 @app.get("/api/resources")
 def get_resources():
+  print("HEEELLLLO!!???")
   res = supabase.table(TABLE).select("*").execute().data
+  print(res)
   return res
 
 
